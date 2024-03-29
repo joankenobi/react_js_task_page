@@ -1,9 +1,15 @@
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import { TaskPage } from './pages/TaskPage';
+import {TaskFormPage} from './pages/TaskFormPage';
 
 function App() {
   return (
-    <div>
-      <h1>Task Page Project</h1>
-    </div>
+    <BrowserRouter>
+    <Routes>
+    <Route path="/tasks" element={<TaskPage/>}/>
+    <Route path="/form" element={<TaskFormPage/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
