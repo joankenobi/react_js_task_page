@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllTasks } from "../api/tasks.api";
-
+import { CardTask } from "../components/CardTask";
 export function TaskList() {
     
     const [
@@ -23,12 +23,8 @@ export function TaskList() {
     return (
     <div>
         {tasks.map(task => ( // Recorre el array de tareas
-            <div key={task.id}>
-                <h3>{task.title}</h3>
-                <p>{task.description}</p>
-            </div>))
-
-        }
+            <CardTask key={task.id} task={task}/>
+            ))}
     </div>
   );
 }
