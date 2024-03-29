@@ -88,3 +88,20 @@ fetch es una alternativa a axios pero fetch requiere de cabeceras y convertir a 
 npm install react-hook-form
 ```
 libreria para manejar formularios en react, permite validar el input que creemos en el frontend
+
+## notas de react
+
+### 1. Componentes
+
+Los componentes son funciones que retornan un jsx (html en js) y se pueden reutilizar en cualquier parte del proyecto.
+
+Se puede decir que almacenan fracciones de interfaces, botones, formularios, etc.
+
+### 2. Pages
+
+Las pages son componentes que se encargan de mostrar la informacion en la pantalla, se pueden reutilizar en cualquier parte del proyecto.
+
+### 3. Api
+
+La carpeta api se encarga de almacenar las peticiones http que se realizan al backend.
+
