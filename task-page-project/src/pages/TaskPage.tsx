@@ -1,9 +1,8 @@
 /* lista de tareas */
+import { TaskList } from "../components/TaskList";
 
 export function TaskPage() {
     return (
-        <div>
-        <h1>Lista de tareas</h1>
-        </div>
+        TaskList()
     );
 }
