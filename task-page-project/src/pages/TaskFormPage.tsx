@@ -1,14 +1,17 @@
 /* formulario de imputs para crear una tarea */
 import { useForm } from "react-hook-form"
+import { createTask } from "../api/tasks.api";
+
 
 
 export function TaskFormPage() {
     const { register, handleSubmit, formState: {errors} } = useForm(); // register y handleSubmit son funciones que se obtienen de useForm, use form debre iterarse para obtener las funciones
     
-    const onSubmit = handleSubmit(data => {
-        console.log(data);
+    const onSubmit = handleSubmit(async data => {
+        const res = await createTask(data)
+        console.log(res);
     })
-    
+
     return (
         <div>
             <form 
