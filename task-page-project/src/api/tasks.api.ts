@@ -7,10 +7,12 @@ import axios from 'axios';
 //     .then(data => data);
 // }
 
-export const getAllTasks = () => {
-   return axios.get("http://localhost:8000/tasks/api/v1/tasks/")
-}
+const tasksApi= axios.create({
+    baseURL: "http://localhost:8000/tasks/api/v1/tasks/"
+})
 
-export const createTask = (task) => {
-    return axios.post("http://localhost:8000/tasks/api/v1/tasks/", task)
-}
+export const getAllTasks = () => tasksApi.get("/")
+
+export const createTask = (task) => tasksApi.post("/", task)
+
+export const deleteTask = (task) => tasksApi.delete(`/${task.id}`)

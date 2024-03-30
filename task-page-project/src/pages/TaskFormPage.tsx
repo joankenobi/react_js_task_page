@@ -1,14 +1,14 @@
 /* formulario de imputs para crear una tarea */
 import { useForm } from "react-hook-form"
-import { createTask } from "../api/tasks.api";
-import {useNavigate} from "react-router-dom"
-
-
+import { createTask, deleteTask } from "../api/tasks.api";
+import {useNavigate, useParams} from "react-router-dom"
 
 export function TaskFormPage() {
     const { register, handleSubmit, formState: {errors} } = useForm(); // register y handleSubmit son funciones que se obtienen de useForm, use form debre iterarse para obtener las funciones
 
     const Navigate = useNavigate();
+    const params = useParams();
+    console.log(params.id)
     
     const onSubmit = handleSubmit(async data => {
         await createTask(data)
@@ -38,6 +38,15 @@ export function TaskFormPage() {
                 </label>
                         {errors.description && <span>Title is required</span>}
                 <button type="submit">Save Task</button>
+                {
+                  params.id && <button type="submit" onClick={async () =>{
+                       const accepted = window.confirm("Are you sure you want to delete this task?") // Ventana de confirmación
+                      if (accepted) {
+                        await deleteTask(params)
+                        Navigate("/tasks")
+                      }
+                    }}>Deleted</button>
+                }
             </form>
         </div>
     );
