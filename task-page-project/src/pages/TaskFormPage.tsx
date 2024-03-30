@@ -1,15 +1,18 @@
 /* formulario de imputs para crear una tarea */
 import { useForm } from "react-hook-form"
 import { createTask } from "../api/tasks.api";
+import {useNavigate} from "react-router-dom"
 
 
 
 export function TaskFormPage() {
     const { register, handleSubmit, formState: {errors} } = useForm(); // register y handleSubmit son funciones que se obtienen de useForm, use form debre iterarse para obtener las funciones
+
+    const Navigate = useNavigate();
     
     const onSubmit = handleSubmit(async data => {
-        const res = await createTask(data)
-        console.log(res);
+        await createTask(data)
+        Navigate("/tasks")
     })
 
     return (
