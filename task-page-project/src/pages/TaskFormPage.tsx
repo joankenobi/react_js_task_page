@@ -1,24 +1,40 @@
 /* formulario de imputs para crear una tarea */
+import { useEffect } from "react";
 import { useForm } from "react-hook-form"
-import { createTask, deleteTask } from "../api/tasks.api";
-import {useNavigate, useParams} from "react-router-dom"
+import { createTask, deleteTask, getTask, updateTask } from "../api/tasks.api";
+import { useNavigate, useParams } from "react-router-dom"
 
 export function TaskFormPage() {
-    const { register, handleSubmit, formState: {errors} } = useForm(); // register y handleSubmit son funciones que se obtienen de useForm, use form debre iterarse para obtener las funciones
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm(); // register y handleSubmit son funciones que se obtienen de useForm, useForm debe iterarse para obtener las funciones
 
     const Navigate = useNavigate();
     const params = useParams();
     console.log(params.id)
-    
+
     const onSubmit = handleSubmit(async data => {
-        await createTask(data)
+        if (params.id) {
+            await updateTask(params.id, data)
+        }else{
+            await createTask(data)
+        }
         Navigate("/tasks")
     })
 
+    useEffect(() => {
+        async function getTaskById() {
+        if (params.id) {
+            const res = await getTask(params.id)
+            console.log(res.data)
+            setValue("title", res.data.title)
+            setValue("description", res.data.description)
+        }}
+        getTaskById() // como es async se debe llamar la funcion
+    },[])
+
     return (
         <div>
-            <form 
-            onSubmit={onSubmit} // onSubmit es un evento que se dispara cuando se envia el formulario.
+            <form
+                onSubmit={onSubmit} // onSubmit es un evento que se dispara cuando se envia el formulario.
             >
                 <label>
                     Title:
@@ -31,20 +47,20 @@ export function TaskFormPage() {
                 <label>
                     Description:
                     <textarea rows="3" placeholder="description"
-                        {...register("description", { 
+                        {...register("description", {
                             required: true // para tener una mejor validacion se recomienda usar yup
                         })}
-                        ></textarea>
+                    ></textarea>
                 </label>
-                        {errors.description && <span>Title is required</span>}
+                {errors.description && <span>Title is required</span>}
                 <button type="submit">Save Task</button>
                 {
-                  params.id && <button type="submit" onClick={async () =>{
-                       const accepted = window.confirm("Are you sure you want to delete this task?") // Ventana de confirmación
-                      if (accepted) {
-                        await deleteTask(params)
-                        Navigate("/tasks")
-                      }
+                    params.id && <button type="submit" onClick={async () => {
+                        const accepted = window.confirm("Are you sure you want to delete this task?") // Ventana de confirmación
+                        if (accepted) {
+                            await deleteTask(params)
+                            Navigate("/tasks")
+                        }
                     }}>Deleted</button>
                 }
             </form>
