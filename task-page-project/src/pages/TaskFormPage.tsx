@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form"
 import { createTask, deleteTask, getTask, updateTask } from "../api/tasks.api";
 import { useNavigate, useParams } from "react-router-dom"
+import { toast } from 'react-hot-toast';
 
 export function TaskFormPage() {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm(); // register y handleSubmit son funciones que se obtienen de useForm, useForm debe iterarse para obtener las funciones
@@ -16,6 +17,13 @@ export function TaskFormPage() {
             await updateTask(params.id, data)
         }else{
             await createTask(data)
+            toast.success("Task created", {
+                position: "bottom-right",
+                style: {
+                    background: "green",
+                    color: "#fff",
+                },
+            }) // toast es una notificación de exito
         }
         Navigate("/tasks")
     })
